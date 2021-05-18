@@ -1,6 +1,6 @@
 from Preprocessing import preprocessing 
 
-input_string="I am feeling Good today"
+input_string="I am , feeling Good today"
 test_string="Hi"
 
 def main():

@@ -7,7 +7,7 @@ class preprocessing:
 
     def __init__(self,input):
         self.imput=input
-        nltk.download('all')
+        #nltk.download('all')
 
         
         
@@ -22,8 +22,10 @@ class preprocessing:
         
     def stopwordemoval(self,input):
         stop_words=set(stopwords.words('english'))
+        token_word=self.tokenization(input)
+        stop_word_rm=[word for word in token_word if not word in stop_words]
         
-        return stop_words
+        return stop_word_rm
         
     def stemming(self,input):
         ps = PorterStemmer()

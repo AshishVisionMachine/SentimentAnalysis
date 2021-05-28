@@ -1,6 +1,8 @@
 from Preprocessing import preprocessing 
 from utility import utility
 import os
+from utility import utility
+
 input_string="I am , feeling Good today"
 test_string="Hi"
 folder_path ="tokens"
@@ -22,9 +24,22 @@ def main():
     path=utli_obj.get_path(folder_path)
     
     print(utli_obj.get_file_list(path))
-    
+    count=0
     for folder in utli_obj.get_file_list(path):
-        print("list of file is {}".format(utli_obj.get_file_list(os.path.join(path,folder))))
+        print("folder name's are {} \n".format(folder))
+        #print("list of file is {}".format(utli_obj.get_file_list(os.path.join(path,folder))))
+        for file in utli_obj.get_file_list(os.path.join(path,folder)) :
+            
+            print("print fil ein folder is {}" .format(file))
+            #utility=utility()
+            file_f=utli_obj.file_open(os.path.join(os.path.join(path,folder),file))
+            data=utli_obj.read_file(file_f)
+            print("data in file is {}" .format(data))
+            count +=1
+            if count==5:
+                break
+            
+
     
     
     

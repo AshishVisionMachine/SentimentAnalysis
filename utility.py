@@ -1,4 +1,8 @@
 import os
+import csv
+import pandas as pd
+
+
 class utility:
     def __init__(self,init="default"):
         self.init=init
@@ -21,14 +25,29 @@ class utility:
         return file_f
         
         
-    def read_file(seld,filehandle):
+    def read_file(self,filehandle):
         data=filehandle.read()
         return data
     
-    def read_line(seld,filehandle):
+    def read_line(self,filehandle):
         line_Data=filehandle.readline()
         return line_Data
     
     #def file_write(self,file_name):
     
+    def write_csv_file(self,data,label):
         
+        with open('Sentiment.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Data", "Label"])
+            for j in range(len(label)):
+                for i in range(len(data)):
+                    writer.writerow([data[i],label[j]])
+    
+    def read_csv(self):
+        data=[]
+        label=[]
+        input_val = pd.read_csv("Sentiment.csv",usecols=['Data','Label'])
+        data=input_val["Data"]
+        label=input_val['Label']
+        return data,label

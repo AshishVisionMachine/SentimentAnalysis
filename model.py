@@ -9,19 +9,47 @@ class Sentimentmodel:
         self.par=par
         
     def model_train(self,input,label):
-        #print("model_train input is {}",input[0,:])
-        #input=np.reshape(input[0,:],(784,))
-        inputs = keras.Input(shape=(784,))
-        dense = layers.Dense(64, activation="relu")
-        x = dense(inputs)
-        x = layers.Dense(64, activation="relu")(x)
-        #outputs = layers.Dense(10)(x)
-        output = dense(10 , activation = 'softmax')(x)
-        model = keras.Model(inputs=inputs, outputs=outputs, name="sentiment_model")
+        inputs = keras.Input(shape=(3,3,32), name="img")
+        x = layers.Conv2D(32, 3, activation="relu")(inputs)
+        x = layers.Conv2D(64, 3, activation="relu")(x)
+        block_1_output = layers.MaxPooling2D(3)(x)
+
+        x = layers.Conv2D(64, 3, activation="relu", padding="same")(block_1_output)
+        x = layers.Conv2D(64, 3, activation="relu", padding="same")(x)
+        block_2_output = layers.add([x, block_1_output])
+
+        x = layers.Conv2D(64, 3, activation="relu", padding="same")(block_2_output)
+        x = layers.Conv2D(64, 3, activation="relu", padding="same")(x)
+        block_3_output = layers.add([x, block_2_output])
+
+        x = layers.Conv2D(64, 3, activation="relu")(block_3_output)
+        x = layers.GlobalAveragePooling2D()(x)
+        x = layers.Dense(256, activation="relu")(x)
+        x = layers.Dropout(0.5)(x)
+        outputs = layers.Dense(10)(x)
+
+        model = keras.Model(inputs, outputs, name="toy_resnet")
         
         return model
       
         
-#  def model_save(self):
+    def model_compile(self,model):
+        model.compile(
+    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    optimizer=keras.optimizers.RMSprop(),
+    metrics=["accuracy"],
+    )
     
-#    def 
+        return model
+    
+    def model_fit(self,model,x_train,y_train,batchsize,epoc,vsplit):
+        history = model.fit(x_train, y_train, batch_size=batchsize, epochs=epoc, validation_split=vsplit)
+        
+        return model
+        
+    def model_predict(self,model,x_test,y_test,verbs):
+        test_scores = model.evaluate(x_test, y_test, verbose=verbs)
+        
+    
+
+    

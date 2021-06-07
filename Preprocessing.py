@@ -11,20 +11,24 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class preprocessing:
 
-    def __init__(self,input):
-        self.imput=input
+    def __init__(self,input="Sentiment"):
+        self.input=input
         #nltk.download('all')
 
         
         
     def lowercasing(self,input):
-        lower_string=input.lower()        
-        return lower_string
+        list_lower=[]
+        for str in input:
+            list_lower.append(str.lower())        
+        return list_lower
         
     def tokenization(self,input):
-        token_string=word_tokenize(input)
+        list_token=[]
+        for str in input :
+            list_token.append(word_tokenize(str))
         
-        return token_string
+        return list_token
         
     def stopwordemoval(self,input):
         stop_words=set(stopwords.words('english'))

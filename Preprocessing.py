@@ -31,11 +31,13 @@ class preprocessing:
         return list_token
         
     def stopwordemoval(self,input):
-        stop_words=set(stopwords.words('english'))
-        token_word=self.tokenization(input)
-        stop_word_rm=[word for word in token_word if not word in stop_words]
+        list_stop=[]
+        for str in input:
+            stop_words=stopwords.words('english')
+            token_word=self.tokenization(str)
+            list_stop.append([word for word in token_word if not word in stop_words])
         
-        return stop_word_rm
+        return list_stop
         
     def stemming(self,input):
         ps = PorterStemmer()

@@ -43,8 +43,10 @@ def train():
     #row,=X_train.shape
     #X_train=np.reshape(X_train,(row,1))
     print("value of xtrain is {}".format(X_train))
+    
+    X_train=preprocessing_obj.stopwordemoval(X_train)
     X_train=preprocessing_obj.lowercasing(X_train)
-    X_train=preprocessing_obj.tokenization(X_train)
+    #X_train=preprocessing_obj.tokenization(X_train)
     print("value of xtrain after tokenization is {}".format(X_train))
 
     #X_train=np.reshape(X_train,(1,1,1,914))

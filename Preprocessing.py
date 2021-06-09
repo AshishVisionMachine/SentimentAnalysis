@@ -19,8 +19,9 @@ class preprocessing:
         
     def lowercasing(self,input):
         list_lower=[]
-        for str in input:
-            list_lower.append(str.lower())        
+        for s in input:
+            str_l=' '.join(map(str, s))
+            list_lower.append(str_l.lower())        
         return list_lower
         
     def tokenization(self,input):
@@ -32,11 +33,13 @@ class preprocessing:
         
     def stopwordemoval(self,input):
         list_stop=[]
+        stop_words=stopwords.words('english')
         for str in input:
-            stop_words=stopwords.words('english')
-            token_word=self.tokenization(str)
-            list_stop.append([word for word in token_word if not word in stop_words])
-        
+           token_word=self.tokenization(str)
+           for str_s in token_word:
+                if str_s not in stop_words:
+                    list_stop.append(str_s)
+ 
         return list_stop
         
     def stemming(self,input):
@@ -49,11 +52,13 @@ class preprocessing:
         return lemmatization_string
         
     def tfidf(self,input):
-        tfid=TfidfVectorizer(max_df=0.90, min_df=2,max_features=1000,stop_words='english')
+        tfid=TfidfVectorizer(max_df=0.90, min_df=1,max_features=1000,stop_words='english')
 
         tfid_mat=tfid.fit_transform(input)
 
         df_tf= pd.DataFrame(tfid_mat.todense())
+        
+        print("dimention is  {} \n".format(df_tf.shape))
         
         return df_tf
         

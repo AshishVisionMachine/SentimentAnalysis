@@ -20,8 +20,9 @@ class preprocessing:
     def lowercasing(self,input):
         list_lower=[]
         for s in input:
-            str_l=' '.join(map(str, s))
-            list_lower.append(str_l.lower())        
+            #str_l=' '.join(map(str, s))
+            str_1=' '.join([str(item) for item in s])
+            list_lower.append(str_1.lower())        
         return list_lower
         
     def tokenization(self,input):
@@ -52,7 +53,7 @@ class preprocessing:
         return lemmatization_string
         
     def tfidf(self,input):
-        tfid=TfidfVectorizer(max_df=0.90, min_df=1,max_features=1000,stop_words='english')
+        tfid=TfidfVectorizer(stop_words='english')
 
         tfid_mat=tfid.fit_transform(input)
 
@@ -60,10 +61,10 @@ class preprocessing:
         
         print("dimention is  {} \n".format(df_tf.shape))
         
-        return df_tf
+        return tfid_mat
         
     def bagofwords(self,input):
-        countvector=CountVectorizer(ngram_vect=(1,1),stop_words='english')
+        countvector=CountVectorizer(stop_words='english')
 
         countvectmat=countvector.fit_transform(input)
 

@@ -17,15 +17,15 @@ class Sentimentmodel:
     
 
         inputs = tf.keras.Input(shape=(None,), dtype="int64")
-        x = layers.Embedding(max_features, embedding_dim)(inputs)
-        #x = layers.Dropout(0.5)(inputs)
+        x = layers.Embedding(max_features+1, embedding_dim)(inputs)
+        x = layers.Dropout(0.2)(x)
         
+        x = layers.Conv1D(8, 3, padding="valid", activation="relu", strides=1)(x)
         x = layers.Conv1D(16, 3, padding="valid", activation="relu", strides=1)(x)
-        #x = layers.Conv1D(32, 3, padding="valid", activation="relu", strides=1)(x)
         x = layers.GlobalMaxPooling1D()(x)
         
-        x = layers.Dense(32, activation="relu")(x)
-        x = layers.Dropout(0.5)(x)
+        #x = layers.Dense(32, activation="relu")(x)
+        x = layers.Dropout(0.2)(x)
         
         predictions = layers.Dense(1, activation="sigmoid", name="predictions")(x)
 
@@ -35,7 +35,8 @@ class Sentimentmodel:
       
         
     def model_compile(self,model):
-        model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
+        opt = keras.optimizers.Adam(learning_rate=0.0001)
+        model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
     
         return model
@@ -44,7 +45,7 @@ class Sentimentmodel:
         train_ds=x_train,y_train
         val_ds=x_test,y_test
         #model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-        model.fit(x_train, y_train,epochs=500,validation_data=(x_test, y_test),batch_size=16)
+        model.fit(x_train, y_train,epochs=500,validation_data=(x_test, y_test),batch_size=32)
         
         return model
         

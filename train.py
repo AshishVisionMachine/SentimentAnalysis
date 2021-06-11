@@ -17,10 +17,10 @@ preprocessing_obj= preprocessing()
 ytrain=[1,2,3,4,5,1,2,0,2,2]
 
 def pre_process(input):
-    X_train=preprocessing_obj.tokenization(input)
+    X_t=preprocessing_obj.tokenization(input)
     #X_train=preprocessing_obj.stopwordemoval(X_train)
-    X_train=preprocessing_obj.lowercasing(X_train)
-    pre_process_val=preprocessing_obj.tfidf(X_train)
+    X_t=preprocessing_obj.lowercasing(X_t)
+    pre_process_val=preprocessing_obj.tfidf(X_t)
     return pre_process_val
 
 def load_data():
@@ -74,6 +74,8 @@ def train():
    # print("value of xtrain after tokenization is {}".format(X_train))
     
     model=Sentimentmodel_o.model_train()
+    model.summary()
+
     model=Sentimentmodel_o.model_compile(model)
     Sentimentmodel_o.model_fit(model,X_train,y_train,X_test,y_test)
 

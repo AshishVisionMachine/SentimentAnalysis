@@ -14,7 +14,7 @@ epoch=2
 vsplit=0.2
 verbose=0.2
 preprocessing_obj= preprocessing()
-
+ytrain=[1,2,3,4,5,1,2,0,2,2]
 
 def pre_process(input):
     X_train=preprocessing_obj.tokenization(input)
@@ -60,8 +60,11 @@ def train():
     #y_test=preprocessing_obj.tfidf(y_test)
     y_train=[0 if x=="neg" else x for x in y_train]
     y_train=[1 if x=="pos" else x for x in y_train]
+    
+    y_test=[0 if x=="neg" else x for x in y_test]
+    y_test=[1 if x=="pos" else x for x in y_test]
 
-    print("SHAPE of X_TRAIN {} X_TEST  {}  Y_TRAIN  {}   Y_TEST {} ".format(X_train.shape,X_test.shape,y_train.shape,y_test.shape))
+    print("SHAPE of X_TRAIN {} X_TEST  {}  Y_TRAIN  {}   Y_TEST {} ".format(X_train.shape,X_test.shape,np.shape(y_train),np.shape(y_test)))
 
     
     #print("y_train IS {}".format(y_train))
@@ -76,7 +79,12 @@ def train():
 
     #X_train=np.reshape(X_train,(1,1,1,914))
     #model=Sentimentmodel_o.model_fit(model,X_train,y_train,batchsize,epoch,vsplit)
-    #model=Sentimentmodel_o.model_predict(model,X_test,y_test,verbose)
+    test_ds={"Hi we are doing good","not happy with outcome of discussion"}
+    test_ds=pre_process(test_ds)
+
+    #result=Sentimentmodel_o.model_predict(model,test_ds)
+    
+    #print("major prediction rsult is {}".format(result))
     
     
     

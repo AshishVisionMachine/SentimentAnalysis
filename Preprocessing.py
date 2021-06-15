@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
 from sklearn.metrics.pairwise import cosine_similarity
-
+import heapq
 
 class preprocessing:
 
@@ -75,3 +75,27 @@ class preprocessing:
     def cosinesimilarity(self,vectormatrix,vector1,vector2):
         cosine_matrix = cosine_similarity(vectormatrix)
         return create_dataframe(cosine_matrix,[vector1,vector1])
+        
+    def bagofwords_ver2(self,input):
+        word2count = {}
+        for data in input:
+            words = nltk.word_tokenize(data)
+            for word in words:
+                if word not in word2count.keys():
+                    word2count[word] = 1
+                else:
+                    word2count[word] += 1
+        
+        
+        freq_words = heapq.nlargest(100, word2count, key=word2count.get)
+        X = []
+        for data in input:
+            vector = []
+            for word in freq_words:
+                if word in nltk.word_tokenize(data):
+                    vector.append(1)
+                else:
+                    vector.append(0)
+            X.append(vector)
+        X = np.asarray(X)
+        return X    

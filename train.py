@@ -20,7 +20,7 @@ def pre_process(input):
     X_t=preprocessing_obj.tokenization(input)
     #X_train=preprocessing_obj.stopwordemoval(X_train)
     X_t=preprocessing_obj.lowercasing(X_t)
-    pre_process_val=preprocessing_obj.bagofwords_ver2(X_t)
+    pre_process_val=preprocessing_obj.bagofwords(X_t)
     print("Bag of words for this {}".format(len(pre_process_val)))
     f = open("bagofword.txt", "a")
     f.write((str(pre_process_val[:100])))

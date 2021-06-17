@@ -16,7 +16,10 @@ class Sentimentmodel:
        
     
 
+        initializer = tf.keras.initializers.RandomUniform(minval=-0.05, maxval=0.05, seed=None)
+
         inputs = tf.keras.Input(shape=(None,), dtype="int64")
+        
         x = layers.Embedding(max_features+1, embedding_dim)(inputs)
         #x = layers.Dropout(0.2)(x)
         
@@ -31,7 +34,7 @@ class Sentimentmodel:
         #x = layers.Dense(32, activation="relu")(x)
         #x = layers.Dropout(0.2)(x)
         
-        predictions = layers.Dense(1, activation="sigmoid", name="predictions")(x)
+        predictions = layers.Dense(1, activation="sigmoid", name="predictions",kernel_initializer=initializer)(x)
 
         model = tf.keras.Model(inputs, predictions)
 
@@ -39,7 +42,7 @@ class Sentimentmodel:
       
         
     def model_compile(self,model):
-        opt = keras.optimizers.Adam(learning_rate=0.0001)
+        opt = keras.optimizers.Adam(learning_rate=0.005)
         model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
     

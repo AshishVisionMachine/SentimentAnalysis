@@ -6,6 +6,8 @@ import pandas as pd
 from model import Sentimentmodel
 from sklearn.model_selection import train_test_split
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 folder_path="tokens"
 class_folder=[]
@@ -82,7 +84,7 @@ def train():
     model.summary()
 
     model=Sentimentmodel_o.model_compile(model)
-    Sentimentmodel_o.model_fit(model,X_train,y_train,X_test,y_test)
+    history=Sentimentmodel_o.model_fit(model,X_train,y_train,X_test,y_test)
 
     #X_train=np.reshape(X_train,(1,1,1,914))
     #model=Sentimentmodel_o.model_fit(model,X_train,y_train,batchsize,epoch,vsplit)
@@ -93,7 +95,13 @@ def train():
     
     #print("major prediction rsult is {}".format(result))
     
-    
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
     
 
 

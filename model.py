@@ -54,7 +54,7 @@ class Sentimentmodel:
         train_ds=x_train,y_train
         val_ds=x_test,y_test
         #model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-        model.fit(x_train, y_train,epochs=500,validation_data=(x_test, y_test),batch_size=16)
+        model.fit(x_train, y_train,epochs=10,validation_data=(x_test, y_test),batch_size=16)
         
         return model
         

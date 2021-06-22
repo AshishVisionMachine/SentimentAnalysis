@@ -21,13 +21,15 @@ class Sentimentmodel:
         inputs = tf.keras.Input(shape=(None,), dtype="int64")
         
         x = layers.Embedding(max_features+1, embedding_dim)(inputs)
-        x = layers.Dropout(0.2)(x)
+        x = layers.Dropout(0.4)(x)
         
         
-        x = layers.Conv1D(64, 5, padding="valid", activation="relu", strides=1)(x)
+        x = layers.Conv1D(32, 3, padding="valid", activation="relu", strides=1)(x)
         #x=layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.0001)(x)
+        #x = layers.GlobalMaxPooling1D()(x)
 
-        x = layers.Conv1D(64, 5, padding="valid", activation="relu", strides=1)(x)
+
+       # x = layers.Conv1D(32, 3, padding="valid", activation="relu", strides=1)(x)
 
         #x=layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
         x = layers.GlobalMaxPooling1D()(x)
@@ -36,7 +38,7 @@ class Sentimentmodel:
         x = layers.Dense(64, activation="relu")(x)
         x = layers.Dropout(0.2)(x)
         
-        predictions = layers.Dense(1, activation="sigmoid", name="predictions",kernel_initializer=initializer)(x)
+        predictions = layers.Dense(1, activation="sigmoid", name="predictions")(x)
 
         model = tf.keras.Model(inputs, predictions)
 
@@ -53,8 +55,8 @@ class Sentimentmodel:
     def model_fit(self,model,x_train,y_train,x_test,y_test,batchsize=32,epochs=200,vsplit=0.2):
         train_ds=x_train,y_train
         val_ds=x_test,y_test
-        #model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-        model.fit(x_train, y_train,epochs=10,validation_data=(x_test, y_test),batch_size=16)
+        model.fit(train_ds, validation_data=val_ds, epochs=epochs)
+#        model.fit(x_train, y_train,epochs=10,validation_data=(x_test, y_test),batch_size=16)
         
         return model
         

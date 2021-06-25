@@ -20,7 +20,9 @@ class utility:
         return file_list
     
     def file_open(self,filename):
-        file_f = open(filename, "r")
+        print("open file name is {} \n".format(filename))
+
+        file_f = open(filename, encoding="utf8")
         
         return file_f
         
@@ -29,15 +31,15 @@ class utility:
         data=filehandle.read()
         return data
     
-    def read_line(self,filehandle):
-        line_Data=filehandle.readline()
+    def read_line(self,filehandle,line):
+        line_Data=filehandle.readlines(-1)
         return line_Data
     
     #def file_write(self,file_name):
     
     def write_csv_file(self,data,label):
         
-        with open('Sentiment.csv', 'w', newline='') as file:
+        with open('email_.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Data", "Label"])
             for j in range(len(label)):

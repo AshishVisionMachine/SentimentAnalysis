@@ -5,6 +5,8 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
+import copy
+
 
 from sklearn.metrics.pairwise import cosine_similarity
 import heapq
@@ -20,29 +22,38 @@ class preprocessing:
         
     def lowercasing(self,input):
         list_lower=[]
+        #str_l=""#' '.join(map(str, s))
         for s in input:
-            #str_l=' '.join(map(str, s))
-            str_1=' '.join([str(item) for item in s])
-            list_lower.append(str_1.lower())        
+            #str_1=' '.join(map(str, s))
+            #str_1=' '.join([str(item) for item in s])
+            list_lower.append(s.lower())        
         return list_lower
         
     def tokenization(self,input):
         list_token=[]
-        for str in input :
-            list_token.append(word_tokenize(str))
+        #for str in input :
+        #    list_token.append(word_tokenize(str))
         
-        return list_token
+        return word_tokenize(input)
         
     def stopwordemoval(self,input):
         list_stop=[]
+        list_final=[]
+        list_copy=[]
         stop_words=stopwords.words('english')
+        str_temp=""
+
         for str in input:
            token_word=self.tokenization(str)
+
            for str_s in token_word:
                 if str_s not in stop_words:
                     list_stop.append(str_s)
- 
-        return list_stop
+           list_copy=copy.copy(list_stop)
+           list_final.append(list_copy)
+           list_stop.clear()
+           
+        return list_final
         
     def stemming(self,input):
         ps = PorterStemmer()

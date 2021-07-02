@@ -7,7 +7,7 @@ import pandas as pd
 
 
 
-input_string="I am , feeling Good today"
+input_string=["I am  feeling Good today","ASDFF GHRT"]
 test_string="Hi"
 folder_path ="tokens"
 class_folder=[]

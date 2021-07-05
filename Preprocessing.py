@@ -24,9 +24,14 @@ class preprocessing:
         list_lower=[]
         #str_l=""#' '.join(map(str, s))
         for s in input:
+            str_m=""
+
+            for str_1 in s:
+                str_m +=str_1.lower()
+                
             #str_1=' '.join(map(str, s))
             #str_1=' '.join([str(item) for item in s])
-            list_lower.append(s.lower())        
+            list_lower.append(str_m)        
         return list_lower
         
     def tokenization(self,input):

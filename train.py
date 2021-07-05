@@ -7,7 +7,7 @@ from model import Sentimentmodel
 from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import OneHotEncoder
 
 folder_path="tokens"
 class_folder=[]
@@ -19,10 +19,12 @@ preprocessing_obj= preprocessing()
 ytrain=[1,2,3,4,5,1,2,0,2,2]
 
 def pre_process(input):
-    X_t=preprocessing_obj.tokenization(input)
-    #X_train=preprocessing_obj.stopwordemoval(X_train)
-    X_t=preprocessing_obj.lowercasing(X_t)
-    pre_process_val=preprocessing_obj.bagofwords(X_t)
+    #X_t=preprocessing_obj.tokenization(input)
+    #X_train=preprocessing_obj.stopwordemoval(input)
+    #X_t=preprocessing_obj.lowercasing(X_train)
+    #print("X_train is {}".format(X_t))
+
+    pre_process_val=preprocessing_obj.bagofwords(input)
     print("Bag of words for this {}".format(len(pre_process_val)))
     f = open("bagofword.txt", "a")
     f.write((str(pre_process_val[:100])))
@@ -56,13 +58,29 @@ def train():
     Sentimentmodel_o=Sentimentmodel()
     #model=Sentimentmodel_o.model_train(input,label)
     #model=Sentimentmodel_o.model_compile(model)
-    #row,=X_train.shape
+    row,=X_train.shape
+    print("shape of X_TAIN IS {}".format(X_train.shape))
     #X_train=np.reshape(X_train,(row,1))
     
-    print("value of y_test is {}".format(y_test.shape))
+    row,=X_test.shape
+    #X_test=np.reshape(X_test,(row,1))
     
-    X_train=pre_process(X_train)
-    X_test=pre_process(X_test)
+    print("value of y_test is {}".format(y_test.shape))
+    from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+    from sklearn.compose import ColumnTransformer
+#Encode Country Column
+    #labelencoder_X = LabelEncoder()
+    #X_train = labelencoder_X.fit_transform(X_train)
+   
+    onehotencoder = OneHotEncoder(handle_unknown='ignore')
+    X_train = onehotencoder.fit_transform(X_train).toarray()
+    
+    onehotencoder = OneHotEncoder(handle_unknown='ignore')
+    X_test = onehotencoder.fit_transform(X_test).toarray()
+    
+    #X_train=pre_process(X_train)
+    #print("X_train is {}".format(X_train))
+    #X_test=pre_process(X_test)
     #y_train=preprocessing_obj.tfidf(y_train)
     #y_test=preprocessing_obj.tfidf(y_test)
     y_train=[0 if x=="neg" else x for x in y_train]

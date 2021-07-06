@@ -59,7 +59,7 @@ def train():
     #model=Sentimentmodel_o.model_train(input,label)
     #model=Sentimentmodel_o.model_compile(model)
     row,=X_train.shape
-    print("shape of X_TAIN IS {}".format(X_train.shape))
+    print("shape of X_TRAIN IS {}".format(X_train[:]))
     #X_train=np.reshape(X_train,(row,1))
     
     row,=X_test.shape
@@ -71,12 +71,17 @@ def train():
 #Encode Country Column
     #labelencoder_X = LabelEncoder()
     #X_train = labelencoder_X.fit_transform(X_train)
-   
-    onehotencoder = OneHotEncoder(handle_unknown='ignore')
-    X_train = onehotencoder.fit_transform(X_train).toarray()
+    from sklearn.feature_extraction.text import CountVectorizer
+
+    vectorizer = CountVectorizer()
+    X_train = vectorizer.fit_transform(X_train)
     
-    onehotencoder = OneHotEncoder(handle_unknown='ignore')
-    X_test = onehotencoder.fit_transform(X_test).toarray()
+    
+    X_test = vectorizer.fit_transform(X_test)
+
+    print("shape of X_TRAIN IS {}".format(X_train))
+
+
     
     #X_train=pre_process(X_train)
     #print("X_train is {}".format(X_train))

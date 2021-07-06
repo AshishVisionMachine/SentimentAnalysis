@@ -21,15 +21,15 @@ class Sentimentmodel:
         inputs = tf.keras.Input(shape=(None,), dtype="int64")
         
         x = layers.Embedding(max_features+1, embedding_dim)(inputs)
-        x = layers.Dropout(0.4)(x)
+        x = layers.Dropout(0.2)(x)
         
         
-        x = layers.Conv1D(32, 3, padding="valid", activation="relu", strides=1)(x)
+        x = layers.Conv1D(64, 5, padding="valid", activation="relu", strides=1)(x)
         #x=layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.0001)(x)
         #x = layers.GlobalMaxPooling1D()(x)
 
 
-       # x = layers.Conv1D(32, 3, padding="valid", activation="relu", strides=1)(x)
+        x = layers.Conv1D(64, 5, padding="valid", activation="relu", strides=1)(x)
 
         #x=layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001)(x)
         x = layers.GlobalMaxPooling1D()(x)
